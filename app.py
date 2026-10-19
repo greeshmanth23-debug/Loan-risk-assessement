@@ -217,8 +217,6 @@ def get_database():
             mongo_uri = st.secrets.get("MONGO_URI")
         except Exception:
             pass
-    if not mongo_uri:
-        mongo_uri = "mongodb://localhost:27017/loanriskmodel"
     return DatabaseManager(uri=mongo_uri)
 
 

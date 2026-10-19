@@ -6,3 +6,4 @@ src/__pycache__/
 .mongodb/
 scratch/
 ~$*
+.streamlit/secrets.toml

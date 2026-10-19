@@ -12,11 +12,14 @@ from bson import ObjectId
 from src.validators import sanitize_filename
 
 
+DEFAULT_MONGO_URI = "mongodb+srv://ravurivenkatesh279_db_user:Greesh123%40@loanriskassessment.f7e036t.mongodb.net/loanriskmodel?retryWrites=true&w=majority"
+
+
 class DatabaseManager:
     """Manages all MongoDB operations for the Loan Risk Assessment System."""
 
-    def __init__(self, uri="mongodb://localhost:27017/loanriskmodel"):
-        self.uri = uri
+    def __init__(self, uri=None):
+        self.uri = uri or DEFAULT_MONGO_URI
         self.client = None
         self.db = None
         self.connected = False
