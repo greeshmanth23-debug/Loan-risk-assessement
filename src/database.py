@@ -23,6 +23,7 @@ class DatabaseManager:
         self.client = None
         self.db = None
         self.connected = False
+        self.error = None
         self._connect()
 
     def _connect(self):
@@ -32,9 +33,11 @@ class DatabaseManager:
             self.client.admin.command('ping')
             self.db = self.client.get_database()
             self.connected = True
+            self.error = None
             self._ensure_indexes()
-        except (ConnectionFailure, Exception):
+        except Exception as e:
             self.connected = False
+            self.error = str(e)
 
     def _ensure_indexes(self):
         """Create necessary indexes for performance."""

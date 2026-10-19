@@ -209,7 +209,6 @@ def get_predictor():
         return None, str(e)
 
 
-@st.cache_resource
 def get_database():
     mongo_uri = os.environ.get("MONGO_URI")
     if not mongo_uri:
@@ -472,6 +471,8 @@ else:
         '<span class="status-dot dot-red"></span> MongoDB Offline',
         unsafe_allow_html=True
     )
+    if hasattr(db, 'error') and db.error:
+        st.sidebar.caption(f"⚠️ {db.error[:150]}")
 
 st.sidebar.markdown("---")
 
@@ -656,7 +657,7 @@ elif page == "📝 Customer Onboarding":
     """, unsafe_allow_html=True)
 
     if not db.connected:
-        st.error("🔴 MongoDB is offline. Please start your MongoDB server and refresh the page.")
+        st.error(f"🔴 MongoDB is offline. {('Details: ' + db.error) if hasattr(db, 'error') and db.error else 'Please start your MongoDB server and refresh the page.'}")
         st.stop()
 
     with st.form("kyc_registration_form", clear_on_submit=False):
@@ -967,7 +968,7 @@ elif page == "🔍 Loan Risk Assessment":
     """)
 
     if not db.connected:
-        st.error("🔴 MongoDB is offline. Please start your MongoDB server.")
+        st.error(f"🔴 MongoDB is offline. {('Details: ' + db.error) if hasattr(db, 'error') and db.error else 'Please start your MongoDB server.'}")
         st.stop()
     if load_error:
         st.error(f"⚠️ Model Error: {load_error}")
