@@ -12,7 +12,7 @@ from bson import ObjectId
 from src.validators import sanitize_filename
 
 
-DEFAULT_MONGO_URI = "mongodb+srv://ravurivenkatesh279_db_user:Greesh123%40@loanriskassessment.f7e036t.mongodb.net/loanriskmodel?retryWrites=true&w=majority"
+DEFAULT_MONGO_URI = "mongodb+srv://ravurivenkatesh279_db_user:Greesh123@loanriskassessment.f7e036t.mongodb.net/loanriskmodel?retryWrites=true&w=majority"
 
 
 class DatabaseManager:
