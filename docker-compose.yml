@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:6.0
+    container_name: loanrisk-mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  streamlit-app:
+    build: .
+    container_name: loanrisk-command-center
+    restart: always
+    ports:
+      - "8501:8501"
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/loanriskmodel
+    depends_on:
+      - mongodb
+
+volumes:
+  mongo_data:

@@ -1,0 +1,7 @@
+[client]
+toolbarMode = "viewer"
+showErrorDetails = false
+
+[global]
+developmentMode = false
+suppressDeprecationWarnings = true

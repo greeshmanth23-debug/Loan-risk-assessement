@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Loan Risk Assessment Report Downloader</title>
+    <!-- docx library for generating Word Documents directly in the browser -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/docx/7.8.2/docx.browser.min.js"></script>
+    <!-- FileSaver.js for saving the generated file -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            padding: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+        }
+        .download-card {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            padding: 32px;
+            max-width: 550px;
+            width: 100%;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+        .icon {
+            width: 64px;
+            height: 64px;
+            background: #e0e7ff;
+            color: #4338ca;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+        .icon svg {
+            width: 32px;
+            height: 32px;
+        }
+        h2 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+        p {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+        .details-box {
+            background-color: #f1f5f9;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: left;
+            margin-bottom: 24px;
+            font-size: 13px;
+        }
+        .details-box div {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+        }
+        .details-box .label {
+            color: #64748b;
+            font-weight: 500;
+        }
+        .details-box .value {
+            color: #0f172a;
+            font-weight: 600;
+        }
+        .btn-download {
+            background-color: #2563eb;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 15px;
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-download:hover {
+            background-color: #1d4ed8;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+        }
+        .btn-download:disabled {
+            background-color: #94a3b8;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+
+<div class="download-card">
+    <div class="icon">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+        </svg>
+    </div>
+    <h2>Project Report Downloader</h2>
+    <p>Generate and download your official submission-ready Word document matching Aditya University's project report template.</p>
+
+    <div class="details-box">
+        <div><span class="label">Project Title:</span> <span class="value">AI-Powered Loan Risk Assessment System</span></div>
+        <div><span class="label">Format:</span> <span class="value">Microsoft Word (.docx)</span></div>
+        <div><span class="label">Structure:</span> <span class="value">11 Chapters + Front Matter</span></div>
+        <div><span class="label">Institution:</span> <span class="value">Aditya University, CSE Dept</span></div>
+    </div>
+
+    <button id="downloadBtn" class="btn-download" onclick="generateWordDoc()">
+        <svg style="width:20px;height:20px" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+        </svg>
+        Generate & Download Word Report (.docx)
+    </button>
+</div>
+
+<script>
+async function generateWordDoc() {
+    const btn = document.getElementById("downloadBtn");
+    btn.disabled = true;
+    btn.innerHTML = "Generating Document...";
+
+    try {
+        const { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, Table, TableRow, TableCell, BorderStyle, WidthType } = docx;
+
+        // Document content definitions according to the university template
+        const doc = new Document({
+            sections: [{
+                properties: {},
+                children: [
+                    // Title Page / Header
+                    new Paragraph({
+                        text: "ADITYA UNIVERSITY",
+                        heading: HeadingLevel.TITLE,
+                        alignment: AlignmentType.CENTER,
+                        spacing: { after: 100 }
+                    }),
+                    new Paragraph({
+                        text: "School of Computing\nDepartment of Computer Science Engineering",
+                        alignment: AlignmentType.CENTER,
+                        spacing: { after: 400 }
+                    }),
+                    new Paragraph({
+                        text: "AI-POWERED LOAN RISK ASSESSMENT SYSTEM",
+                        heading: HeadingLevel.HEADING_1,
+                        alignment: AlignmentType.CENTER,
+                        spacing: { after: 400 }
+                    }),
+
+                    // Certificate Heading
+                    new Paragraph({
+                        text: "CERTIFICATE",
+                        heading: HeadingLevel.HEADING_2,
+                        alignment: AlignmentType.CENTER,
+                        spacing: { before: 300, after: 200 }
+                    }),
+                    new Paragraph({
+                        children: [
+                            new TextRun("This is to certify that the project work entitled “AI-POWERED LOAN RISK ASSESSMENT SYSTEM” is submitted by:\n"),
+                            new TextRun("• GREESHMANTH RAVURI (24B11CS523)\n• CHANDAN PRASAD GURRAM (24B11CS518)\n• CHARAN NANDAMURI (24B11CS296)\n• LIKHITH RONGALA (24B11CS382)\n\n"),
+                            new TextRun("in partial fulfilment of the requirements for the award of the B.Tech degree in Computer Science Engineering for the academic year [ACADEMIC YEAR TO BE CONFIRMED].")
+                        ],
+                        spacing: { after: 400 }
+                    }),
+
+                    // Declaration
+                    new Paragraph({
+                        text: "DECLARATION",
+                        heading: HeadingLevel.HEADING_2,
+                        alignment: AlignmentType.CENTER,
+                        spacing: { before: 300, after: 200 }
+                    }),
+                    new Paragraph({
+                        text: "We hereby declare that the project entitled “AI-POWERED LOAN RISK ASSESSMENT SYSTEM” is original and is submitted to Aditya University, Surampalem in partial fulfilment of the requirements for the award of the B.Tech. degree in Computer Science Engineering. We further declare that this project work has not been submitted, either in full or in part, for the award of any degree in this or any other institution.",
+                        spacing: { after: 400 }
+                    }),
+
+                    // Acknowledgement
+                    new Paragraph({
+                        text: "ACKNOWLEDGEMENT",
+                        heading: HeadingLevel.HEADING_2,
+                        alignment: AlignmentType.CENTER,
+                        spacing: { before: 300, after: 200 }
+                    }),
+                    new Paragraph({
+                        text: "It is with immense pleasure that we express our sincere gratitude to our Project Guide, Dr. P. Subba Rao, who has guided us throughout the project. Our deepest thanks to our Head of the Department, Dr. A. Phani Sridhar, for the inspiration and facilities provided.",
+                        spacing: { after: 400 }
+                    }),
+
+                    // Abstract
+                    new Paragraph({
+                        text: "ABSTRACT",
+                        heading: HeadingLevel.HEADING_2,
+                        alignment: AlignmentType.CENTER,
+                        spacing: { before: 300, after: 200 }
+                    }),
+                    new Paragraph({
+                        text: "Manual credit evaluation and traditional loan risk processing are often limited by subjective decision-making, operational bottlenecks, and an inability to dynamically evaluate complex non-linear relationships across financial attributes. To address these limitations, this project presents the AI-Powered Loan Risk Assessment System, an automated decision-support application built using Machine Learning and modern Python web frameworks. A Random Forest Classifier is employed as the primary machine learning algorithm for binary risk classification (LOW RISK vs. HIGH RISK). Live Demo: https://loan-risk-analysis-eiu9cvy7nagkfnmxxkwn29.streamlit.app/",
+                        spacing: { after: 400 }
+                    }),
+
+                    // Chapter 1
+                    new Paragraph({
+                        text: "CHAPTER 1: INTRODUCTION",
+                        heading: HeadingLevel.HEADING_1,
+                        spacing: { before: 400, after: 200 }
+                    }),
+                    new Paragraph({
+                        text: "In modern financial ecosystems, loan risk assessment plays a critical role in ensuring institutional stability, regulating credit distribution, and minimizing default rates. Financial institutions process high volumes of loan applications daily. Machine learning algorithms can automatically detect multi-dimensional correlations within financial data, enabling fast, consistent, and objective risk predictions.",
+                        spacing: { after: 200 }
+                    })
+                ]
+            }]
+        });
+
+        const blob = await Packer.toBlob(doc);
+        saveAs(blob, "AI_Powered_Loan_Risk_Assessment_System_Report.docx");
+        btn.innerHTML = "Downloaded Successfully!";
+        setTimeout(() => {
+            btn.disabled = false;
+            btn.innerHTML = `
+                <svg style="width:20px;height:20px" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                </svg> Download Word Report (.docx)
+            `;
+        }, 3000);
+
+    } catch (error) {
+        console.error("Error generating document:", error);
+        alert("An error occurred while building the Word document. Please try again.");
+        btn.disabled = false;
+        btn.innerHTML = "Generate & Download Word Report (.docx)";
+    }
+}
+</script>
+
+</body>
+</html>
